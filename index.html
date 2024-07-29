@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Lit + TS</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/shoelace-autoloader.js"
+    ></script>
+
+    <link rel="stylesheet" href="./src/index.css" />
+    <script type="module" src="/src/my-element.ts"></script>
+    <script type="module" src="/src/image-swipe.ts"></script>
+  </head>
+  <body>
+    <div class="swipeWrapper">
+      <sl-carousel mouse-dragging="true" style="--aspect-ratio: 780/1171">
+        <sl-carousel-item>
+          <image-swipe
+            id="imageSwipe1"
+            imageId="123"
+            imageWidth="280"
+            imageUrl="https://image.tmdb.org/t/p/original/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg"
+          >
+          </image-swipe>
+        </sl-carousel-item>
+        <sl-carousel-item>
+          <image-swipe
+            id="imageSwipe2"
+            imageId="456"
+            imageWidth="280"
+            imageUrl="https://media.themoviedb.org/t/p/w440_and_h660_face/ntYinolBWGkgmoiLPimtr84xBs1.jpg"
+          >
+          </image-swipe>
+        </sl-carousel-item>
+        <sl-carousel-item>
+          <image-swipe
+            id="imageSwipe3"
+            imageId="789"
+            imageWidth="280"
+            imageUrl="https://media.themoviedb.org/t/p/w440_and_h660_face/mJQHyxT8NxzIuHzWfY4hqDsbUhY.jpg"
+          >
+          </image-swipe>
+        </sl-carousel-item>
+      </sl-carousel>
+    </div>
+    <sl-alert variant="primary" duration="2000" closable>
+      <sl-icon slot="icon" name="info-circle"></sl-icon>
+      <div id="message-alert-text"></div>
+    </sl-alert>
+    <!-- <my-element>
+      <h1>Vite + Lit</h1>
+    </my-element> -->
+  </body>
+</html>
+
+<script>
+  var carousel = document.getElementsByTagName('sl-carousel')[0];
+  var images = document.getElementsByTagName('image-swipe');
+  var alert = document.getElementsByTagName('sl-alert')[0];
+  var alertText = document.getElementById('message-alert-text');
+  for (var i = 0; i < images.length; i++) {
+      images[i].addEventListener('imageSwipe', function (e) {
+          console.log('##### swipe from image-swipe', e.detail);
+          if (e.detail.direction === 'swipeleft') { 
+              carousel.next();
+          }
+          if (e.detail.direction === 'swiperight') {
+              carousel.previous();
+          }
+          var message = 'Image ID: ' + e.detail.imageId + ' - Direction: ' + e.detail.direction;
+          alertText.innerHTML = message;
+          alert.toast();
+      });
+  }
+</script>
